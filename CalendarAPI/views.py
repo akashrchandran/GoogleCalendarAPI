@@ -1,4 +1,6 @@
 from datetime import datetime, timezone
+import os
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -16,6 +18,8 @@ REDIRECT_URI  = 'http://localhost:8000/rest/v1/calendar/redirect/'
 
 def GoogleCalendarInitView(request):
     # Initialize authorization flow
+    if not os.path.exists(CRED_FILE):
+        return HttpResponse("Please download client_secret.json file from google developer console and place it in project root directory")
     flow = Flow.from_client_secrets_file(CRED_FILE, scopes=SCOPE)
     flow.redirect_uri = REDIRECT_URI
     authorization_url, state = flow.authorization_url()
