@@ -13,7 +13,7 @@ from googleapiclient.errors import HttpError
 CRED_FILE = 'client_secret.json'
 # google calendar scope
 SCOPE = ['https://www.googleapis.com/auth/calendar.readonly']
-REDIRECT_URI  = 'http://localhost:8000/rest/v1/calendar/redirect/'
+REDIRECT_URI  = '/rest/v1/calendar/redirect/'
 
 
 def GoogleCalendarInitView(request):
@@ -21,7 +21,7 @@ def GoogleCalendarInitView(request):
     if not os.path.exists(CRED_FILE):
         return HttpResponse("Please download client_secret.json file from google developer console and place it in project root directory")
     flow = Flow.from_client_secrets_file(CRED_FILE, scopes=SCOPE)
-    flow.redirect_uri = REDIRECT_URI
+    flow.redirect_uri = f"http://{request.get_host()}{REDIRECT_URI}"
     authorization_url, state = flow.authorization_url()
     # state is used to prevent CSRF, keep this for later.
     request.session['state'] = state
