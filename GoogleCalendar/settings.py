@@ -25,13 +25,14 @@ SECRET_KEY = 'django-insecure-=&@ydj1jd-86dr^u(wb&a09&oo271808532iks8r#rl0&6)o$s
 
 os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
     'CalendarAPI',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
