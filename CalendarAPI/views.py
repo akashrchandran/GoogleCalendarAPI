@@ -1,16 +1,13 @@
-from datetime import datetime, timezone
 import os
+from datetime import datetime, timezone
+
 from django.http import HttpResponse
-
-from django.shortcuts import redirect, render
-from django.urls import reverse
-
-from rest_framework.response import Response
-from rest_framework.decorators import api_view
-
-from  google_auth_oauthlib.flow import Flow
+from django.shortcuts import redirect
+from google_auth_oauthlib.flow import Flow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # google credentials file name
 CRED_FILE = 'client_secret.json'
@@ -36,9 +33,6 @@ def GoogleCalendarInitView(request):
 def GoogleCalendarRedirectView(request):
     # get state from session
     state = request.session.get('state')
-    # check if state is None
-    if state is None:
-        return redirect('/rest/v1/calendar/init/')
     try:
         # Initialize authorization flow and this time with state
         flow = Flow.from_client_secrets_file(CRED_FILE, scopes=SCOPE, state=state)
